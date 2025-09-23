@@ -87,7 +87,8 @@ def main():
 
     tokenized_dataset = dataset.map(lambda ex: preprocess_function(ex, tokenizer), remove_columns=dataset.column_names)
     filtered_dataset = tokenized_dataset.filter(filter_long_sequences)
-
+    
+    # ========================#positive : #negative = 1:1========================
     uf_examples = filtered_dataset.filter(lambda ex: ex['data_type'] == 1)
     pku_examples = filtered_dataset.filter(lambda ex: ex['data_type'] == 0)
 
@@ -100,6 +101,7 @@ def main():
     balanced_dataset = balanced_dataset.shuffle(seed=42)
 
     print(len(balanced_dataset), flush=True)
+    # ========================#positive : #negative = 1:1========================
 
     sampler = DistributedSampler(balanced_dataset) if args.distributed else None
     dataloader = DataLoader(balanced_dataset, sampler=sampler, batch_size=args.per_device_batch_size, collate_fn = lambda batch: {
@@ -148,7 +150,8 @@ def main():
                 input_end = len_input_ids[i]
                 prompt_end = input_end + prompt_len
                 label_end = prompt_end + len_labels[i]
-
+                
+                # ========================left padding========================
                 full_inputs[i, :input_end] = inputs_embeds[i, :len_input_ids[i]]
                 full_inputs[i, input_end:prompt_end] = pe
                 full_inputs[i, prompt_end:label_end] = labels_embeds[i, :len_labels[i]]
@@ -156,6 +159,7 @@ def main():
                 full_labels[i, prompt_end:label_end] = labels[i, :len_labels[i]]
 
                 full_attention_mask[i, :label_end] = 1
+                # ========================left padding========================
             
             with autocast(device_type="cuda", dtype=torch.bfloat16): 
                 outputs = model(inputs_embeds=full_inputs, labels=full_labels, attention_mask=full_attention_mask)
