@@ -1,3 +1,5 @@
+## PSRT: Accelerating LRM-based Guard Models via Prefilled Safe Reasoning Traces
+![Alt text](fig/image.png)
 ## Environment Setup
 Install dependencies using:
 ```bash
