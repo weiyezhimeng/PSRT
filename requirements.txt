@@ -1,0 +1,4 @@
+swanlab
+torch
+transformers
+vllm
