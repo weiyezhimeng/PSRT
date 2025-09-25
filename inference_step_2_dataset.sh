@@ -3,7 +3,6 @@
 FILE_PATHS=(
 )
 
-# 循环每个文件路径
 for file_path in "${FILE_PATHS[@]}"; do
     echo "$file_path"
     echo "----------------------------------------"
