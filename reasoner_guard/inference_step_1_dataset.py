@@ -73,7 +73,7 @@ def main(dataset_path, output_json_path, model_name_or_path, prompt_embeds_path,
     data_list = pd.read_csv(dataset_path) if ext == '.csv' else pd.read_json(dataset_path)
     
     results = []
-    for index, item in tqdm(data_list.iterrows(), total=len(data_list), desc="处理进度"):
+    for index, item in tqdm(data_list.iterrows(), total=len(data_list), desc="processing"):
         response, response_len = generate_response(model, tokenizer, prompt_embeds, item['prompt'], device)
         print("\nResponse:", response, "\n")
         results_item = {
@@ -94,7 +94,7 @@ def main(dataset_path, output_json_path, model_name_or_path, prompt_embeds_path,
 if __name__ == "__main__":
 
     args = parse_args()
-    PROMPT_LENGTH = args.PROMPT_LENGTH  # 提示词长度
+    PROMPT_LENGTH = args.PROMPT_LENGTH 
     model_name = args.model_name
     dataset_path = args.dataset_path
     device = args.device
