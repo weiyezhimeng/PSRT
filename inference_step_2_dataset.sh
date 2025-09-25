@@ -1,6 +1,5 @@
 #!/bin/bash
 
-# 定义要处理的文件路径列表
 FILE_PATHS=(
 )
 
